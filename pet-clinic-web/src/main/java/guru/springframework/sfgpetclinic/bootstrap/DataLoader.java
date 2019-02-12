@@ -1,10 +1,7 @@
 package guru.springframework.sfgpetclinic.bootstrap;
 
 import com.google.common.collect.Sets;
-import guru.springframework.sfgpetclinic.model.Owner;
-import guru.springframework.sfgpetclinic.model.Pet;
-import guru.springframework.sfgpetclinic.model.PetType;
-import guru.springframework.sfgpetclinic.model.Vet;
+import guru.springframework.sfgpetclinic.model.*;
 import guru.springframework.sfgpetclinic.service.OwnerService;
 import guru.springframework.sfgpetclinic.service.PetTypeService;
 import guru.springframework.sfgpetclinic.service.VetService;
@@ -62,14 +59,25 @@ public class DataLoader implements CommandLineRunner {
         owner2.setPets(Sets.newHashSet(pet2));
         ownerService.save(owner2);
 
+        Specialty radiology = new Specialty();
+        radiology.setDescription("radiology");
+
+        Specialty surgery = new Specialty();
+        surgery.setDescription("surgery");
+
+        Specialty dentistry = new Specialty();
+        dentistry.setDescription("dentistry");
+
         Vet vet1 = new Vet();
         vet1.setFirstName("Vetty");
         vet1.setLastName("Fixpets");
+        vet1.setSpecialties(Sets.newHashSet(radiology, surgery));
         vetService.save(vet1);
 
         Vet vet2 = new Vet();
         vet2.setFirstName("Vett");
         vet2.setLastName("Fixmoarpets");
+        vet2.setSpecialties(Sets.newHashSet(dentistry));
         vetService.save(vet2);
     }
 }
