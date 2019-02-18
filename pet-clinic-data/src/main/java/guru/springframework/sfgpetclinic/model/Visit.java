@@ -1,8 +1,13 @@
 package guru.springframework.sfgpetclinic.model;
 
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 
+@Entity
 public class Visit extends BaseEntity {
+
+    @ManyToOne
     private Pet pet;
     private LocalDate date;
     private String description;
