@@ -1,11 +1,16 @@
 package guru.springframework.sfgpetclinic.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Data
+@EqualsAndHashCode(exclude = {"owner"}, callSuper = false)
 public class Pet extends BaseEntity {
 
     @ManyToOne
@@ -22,43 +27,4 @@ public class Pet extends BaseEntity {
     @JoinTable(name = "pet_visit", inverseJoinColumns = @JoinColumn(name = "visit_id"))
     private Set<Visit> visits = new HashSet<>();
 
-    public PetType getType() {
-        return type;
-    }
-
-    public void setType(PetType type) {
-        this.type = type;
-    }
-
-    public Owner getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Owner owner) {
-        this.owner = owner;
-    }
-
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Set<Visit> getVisits() {
-        return visits;
-    }
-
-    public void setVisits(Set<Visit> visits) {
-        this.visits = visits;
-    }
 }
