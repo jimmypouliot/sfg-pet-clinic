@@ -30,15 +30,15 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
+      # mvn install, required to get our own dependencies in
+      - run: mvn install -Dskip-tests
+
       - run: mvn dependency:go-offline
 
       - save_cache:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
-
-      # mvn install
-      - run: mvn install -Dskip-tests
 
       # run tests!
       - run: mvn integration-test
