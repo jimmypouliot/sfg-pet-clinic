@@ -20,8 +20,8 @@ public class JpaOwnerService implements OwnerService {
     }
 
     @Override
-    public Owner findByLastName(String lastName) {
-        return ownerRepository.findByLastName(lastName).orElse(null);
+    public Set<Owner> findByLastName(String lastName) {
+        return ownerRepository.findByLastName(lastName);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package guru.springframework.sfgpetclinic.service.jpa;
 
+import com.google.common.collect.Sets;
 import guru.springframework.sfgpetclinic.model.Owner;
 import guru.springframework.sfgpetclinic.repository.OwnerRepository;
 import org.junit.jupiter.api.Test;
@@ -7,8 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -26,9 +25,9 @@ class JpaOwnerServiceTest {
     void findByLastName() {
         Owner owner = Owner.builder().id(1L).lastName("Smith").build();
 
-        when(ownerRepository.findByLastName("Smith")).thenReturn(Optional.of(owner));
+        when(ownerRepository.findByLastName("Smith")).thenReturn((Sets.newHashSet(owner)));
 
-        assertEquals(owner, service.findByLastName("Smith"));
+        assertEquals(owner, service.findByLastName("Smith").iterator().next());
     }
 
     @Test

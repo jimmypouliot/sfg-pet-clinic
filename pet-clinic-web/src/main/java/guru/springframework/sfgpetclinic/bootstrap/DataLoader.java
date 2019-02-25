@@ -66,6 +66,21 @@ public class DataLoader implements CommandLineRunner {
         pet2.setVisits(Sets.newHashSet(pet2Visit));
         ownerService.save(owner2);
 
+        Owner owner3 = new Owner();
+        owner3.setFirstName("Not Jimmy");
+        owner3.setLastName("Pouliot");
+        Pet pet3 = new Pet();
+        pet3.setType(cat);
+        pet3.setBirthDate(LocalDate.now().minus(Period.ofYears(3)));
+        pet3.setName("Not Nova");
+        owner3.setPets(Sets.newHashSet(pet3));
+        Visit pet3Visit = new Visit();
+        pet3Visit.setDate(LocalDate.now());
+        pet3Visit.setDescription("Gros Bobo");
+        pet3Visit.setPet(pet3);
+        pet3.setVisits(Sets.newHashSet(pet3Visit));
+        ownerService.save(owner3);
+
         Specialty radiology = new Specialty();
         radiology.setDescription("radiology");
         specialtyService.save(radiology);
