@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -37,16 +38,34 @@ class OwnersControllerTest {
         owners.add(Owner.builder().id(1L).build());
         owners.add(Owner.builder().id(2L).build());
 
-        when(ownerService.findAll()).thenReturn(owners);
-
         mockMvc = standaloneSetup(controller).build();
     }
 
     @Test
     void index() throws Exception {
-        mockMvc.perform(get("/owners/"))
+        when(ownerService.findAll()).thenReturn(owners);
+
+        mockMvc.perform(get("/owners"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("owners"))
+                .andExpect(view().name("owner/index"))
                 .andExpect(model().attribute("owners", owners));
+    }
+
+    @Test
+    void findOwner() throws Exception {
+        mockMvc.perform(get("/owners/find"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owner/findOwners"))
+                .andExpect(model().attribute("owner", notNullValue()));
+    }
+
+    @Test
+    void ownerDetails() throws Exception {
+        when(ownerService.findById(123L)).thenReturn(Owner.builder().id(123L).build());
+
+        mockMvc.perform(get("/owners/123"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owner/ownerDetails"))
+                .andExpect(model().attribute("owner", hasProperty("id", equalTo(123L))));
     }
 }
