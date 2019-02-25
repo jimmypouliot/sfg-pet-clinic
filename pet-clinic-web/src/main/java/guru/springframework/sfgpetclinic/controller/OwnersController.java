@@ -39,7 +39,7 @@ public class OwnersController {
         log.info("Got /owners request with lastName param: " + lastName);
 
         Set<Owner> foundOwners = lastName != null
-                ? ownerService.findByLastName(lastName)
+                ? ownerService.findByLastNameLike(lastName)
                 : Collections.emptySet();
 
         if (lastName != null && foundOwners.isEmpty()) {

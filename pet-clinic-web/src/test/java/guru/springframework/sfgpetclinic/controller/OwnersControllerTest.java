@@ -64,7 +64,7 @@ class OwnersControllerTest {
 
     @Test
     void foundOwnerFoundZero() throws Exception {
-        when(ownerService.findByLastName("NotFoundName")).thenReturn(Collections.emptySet());
+        when(ownerService.findByLastNameLike("NotFoundName")).thenReturn(Collections.emptySet());
 
         mockMvc.perform(get("/owners").param("lastName", "NotFoundName"))
                 .andExpect(status().isOk())
@@ -76,7 +76,7 @@ class OwnersControllerTest {
     void foundOwnerFoundOne() throws Exception {
         Set<Owner> oneOwnerSet = Sets.newHashSet(Owner.builder().id(12L).lastName("OneName").build());
 
-        when(ownerService.findByLastName("OneName")).thenReturn(oneOwnerSet);
+        when(ownerService.findByLastNameLike("OneName")).thenReturn(oneOwnerSet);
 
         mockMvc.perform(get("/owners").param("lastName", "OneName"))
                 .andExpect(status().is3xxRedirection())
@@ -91,7 +91,7 @@ class OwnersControllerTest {
 
         assertEquals(2, severalOwners.size());
 
-        when(ownerService.findByLastName("OneName")).thenReturn(severalOwners);
+        when(ownerService.findByLastNameLike("OneName")).thenReturn(severalOwners);
 
         mockMvc.perform(get("/owners").param("lastName", "OneName"))
                 .andExpect(status().isOk())
