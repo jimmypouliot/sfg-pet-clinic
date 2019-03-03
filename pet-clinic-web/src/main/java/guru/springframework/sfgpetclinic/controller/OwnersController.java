@@ -58,7 +58,7 @@ public class OwnersController {
     }
 
     @GetMapping({"/{id}"})
-    public ModelAndView displayOwner(@PathVariable("id") Long id) {
+    public ModelAndView displayOwner(@PathVariable Long id) {
         return new ModelAndView("owner/ownerDetails", "owner", ownerService.findById(id));
     }
 
@@ -78,13 +78,13 @@ public class OwnersController {
     }
 
     @GetMapping({"/{ownerId}/edit"})
-    public ModelAndView getEdit(@PathVariable("ownerId") Long ownerId) {
+    public ModelAndView getEdit(@PathVariable Long ownerId) {
         Owner owner = ownerService.findById(ownerId);
         return new ModelAndView("owner/createOrUpdateOwnerForm", "owner", owner);
     }
 
     @PostMapping("/{ownerId}/edit")
-    public ModelAndView postEdit(@PathVariable("ownerId") Long ownerId, @Valid Owner owner, BindingResult result) {
+    public ModelAndView postEdit(@PathVariable Long ownerId, @Valid Owner owner, BindingResult result) {
         if (result.hasErrors()) {
             return new ModelAndView("owner/createOrUpdateOwnerForm", "owner", owner);
         } else {
