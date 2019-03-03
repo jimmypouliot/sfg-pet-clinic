@@ -20,10 +20,10 @@ public class OwnerServiceMap extends AbstractMapService<Owner, Long> implements 
     }
 
     @Override
-    public Set<Owner> findByLastNameLike(String lastName) {
+    public Set<Owner> findAllByLastNameLikeIgnoreCase(String lastName) {
         return findAll()
                 .stream()
-                .filter(o -> o.getLastName().contains(lastName))
+                .filter(o -> o.getLastName().toLowerCase().contains(lastName.toLowerCase()))
                 .collect(Collectors.toSet());
     }
 
