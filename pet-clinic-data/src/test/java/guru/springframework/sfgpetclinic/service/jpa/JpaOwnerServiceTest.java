@@ -25,9 +25,9 @@ class JpaOwnerServiceTest {
     void findByLastName() {
         Owner owner = Owner.builder().id(1L).lastName("Smith").build();
 
-        when(ownerRepository.findByLastNameLike("%Smith%")).thenReturn((Sets.newHashSet(owner)));
+        when(ownerRepository.findAllByLastNameLikeIgnoreCase("%Smith%")).thenReturn((Sets.newHashSet(owner)));
 
-        assertEquals(owner, service.findByLastNameLike("Smith").iterator().next());
+        assertEquals(owner, service.findAllByLastNameLikeIgnoreCase("Smith").iterator().next());
     }
 
     @Test

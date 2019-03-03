@@ -20,8 +20,8 @@ public class JpaOwnerService implements OwnerService {
     }
 
     @Override
-    public Set<Owner> findByLastNameLike(String lastName) {
-        return ownerRepository.findByLastNameLike('%' + lastName + '%');
+    public Set<Owner> findAllByLastNameLikeIgnoreCase(String lastName) {
+        return ownerRepository.findAllByLastNameLikeIgnoreCase('%' + lastName + '%');
     }
 
     @Override
