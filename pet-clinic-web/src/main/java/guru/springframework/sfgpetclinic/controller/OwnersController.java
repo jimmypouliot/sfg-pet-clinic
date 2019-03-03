@@ -7,12 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.Collections;
 import java.util.Set;
 
@@ -43,7 +41,7 @@ public class OwnersController {
                 : Collections.emptySet();
 
         if (lastName != null && foundOwners.isEmpty()) {
-            result.rejectValue("lastName", "notFound", "Last name not found");
+            result.rejectValue("lastName", "notFound", new String[]{lastName}, "Last name not found");
             return "owner/findOwners";
         } else if (foundOwners.size() == 1) {
             return "redirect:/owners/" + foundOwners.iterator().next().getId();
@@ -62,5 +60,37 @@ public class OwnersController {
     @GetMapping({"/{id}"})
     public ModelAndView displayOwner(@PathVariable("id") Long id) {
         return new ModelAndView("owner/ownerDetails", "owner", ownerService.findById(id));
+    }
+
+    @GetMapping({"/new"})
+    public ModelAndView getNew() {
+        return new ModelAndView("owner/createOrUpdateOwnerForm", "owner", new Owner());
+    }
+
+    @PostMapping({"/new"})
+    public ModelAndView postNew(@Valid Owner owner, BindingResult result) {
+        if (result.hasErrors()) {
+            return new ModelAndView("owner/createOrUpdateOwnerForm", "owner", owner);
+        } else {
+            Owner savedOwner = ownerService.save(owner);
+            return new ModelAndView("redirect:/owners/" + savedOwner.getId(), "owner", savedOwner);
+        }
+    }
+
+    @GetMapping({"/{ownerId}/edit"})
+    public ModelAndView getEdit(@PathVariable("ownerId") Long ownerId) {
+        Owner owner = ownerService.findById(ownerId);
+        return new ModelAndView("owner/createOrUpdateOwnerForm", "owner", owner);
+    }
+
+    @PostMapping("/{ownerId}/edit")
+    public ModelAndView postEdit(@PathVariable("ownerId") Long ownerId, @Valid Owner owner, BindingResult result) {
+        if (result.hasErrors()) {
+            return new ModelAndView("owner/createOrUpdateOwnerForm", "owner", owner);
+        } else {
+            owner.setId(ownerId);
+            Owner savedOwner = ownerService.save(owner);
+            return new ModelAndView("redirect:/owners/" + savedOwner.getId(), "owner", savedOwner);
+        }
     }
 }

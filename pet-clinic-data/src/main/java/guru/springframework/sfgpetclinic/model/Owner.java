@@ -31,4 +31,8 @@ public class Owner extends Person {
         this.telephone = telephone;
         this.pets = pets;
     }
+
+    public boolean isNew() {
+        return getId() == null;
+    }
 }
