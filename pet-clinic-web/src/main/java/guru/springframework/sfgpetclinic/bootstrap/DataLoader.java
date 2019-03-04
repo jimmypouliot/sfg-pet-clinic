@@ -30,12 +30,10 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        PetType dog = new PetType();
-        dog.setType("dog");
+        PetType dog = PetType.builder().type("dog").build();
         petTypeService.save(dog);
 
-        PetType cat = new PetType();
-        cat.setType("cat");
+        PetType cat = PetType.builder().type("cat").build();
         petTypeService.save(cat);
 
         Owner owner1 = new Owner();
@@ -43,21 +41,23 @@ public class DataLoader implements CommandLineRunner {
         owner1.setLastName("Pool");
         owner1.setAddress("123 Street A");
         owner1.setCity("Montréal");
-        Pet pet1 = new Pet();
-        pet1.setType(dog);
-        pet1.setOwner(owner1);
-        pet1.setBirthDate(LocalDate.now().minus(Period.ofYears(2)));
-        pet1.setName("Pitou");
+        Pet pet1 = Pet.builder()
+                .type(dog)
+                .owner(owner1)
+                .birthDate(LocalDate.now().minus(Period.ofYears(2)))
+                .name("Pitou")
+                .build();
         owner1.setPets(Sets.newHashSet(pet1));
         ownerService.save(owner1);
 
         Owner owner2 = new Owner();
         owner2.setFirstName("Jimmy");
         owner2.setLastName("Pouliot");
-        Pet pet2 = new Pet();
-        pet2.setType(cat);
-        pet2.setBirthDate(LocalDate.now().minus(Period.ofYears(3)));
-        pet2.setName("Nova");
+        Pet pet2 = Pet.builder()
+                .type(cat)
+                .birthDate(LocalDate.now().minus(Period.ofYears(3)))
+                .name("Nova")
+                .build();
         owner2.setPets(Sets.newHashSet(pet2));
         Visit pet2Visit = new Visit();
         pet2Visit.setDate(LocalDate.now());
@@ -69,10 +69,11 @@ public class DataLoader implements CommandLineRunner {
         Owner owner3 = new Owner();
         owner3.setFirstName("Not Jimmy");
         owner3.setLastName("Pouliot");
-        Pet pet3 = new Pet();
-        pet3.setType(cat);
-        pet3.setBirthDate(LocalDate.now().minus(Period.ofYears(3)));
-        pet3.setName("Not Nova");
+        Pet pet3 = Pet.builder()
+                .type(cat)
+                .birthDate(LocalDate.now().minus(Period.ofYears(3)))
+                .name("Not Nova")
+                .build();
         owner3.setPets(Sets.newHashSet(pet3));
         Visit pet3Visit = new Visit();
         pet3Visit.setDate(LocalDate.now());
