@@ -19,4 +19,7 @@ public class Visit extends BaseEntity {
     private LocalDate date;
     private String description;
 
+    public boolean isNew() {
+        return getId() == null;
+    }
 }

@@ -75,7 +75,6 @@ public class PetsController {
     @GetMapping("/pets/{petId}/edit")
     public ModelAndView getEdit(@PathVariable Long petId) {
         Pet pet = petService.findById(petId);
-        System.out.println("returning pet: " + pet);
         return new ModelAndView(CREATE_OR_UPDATE_PET_FORM, "pet", pet);
     }
 
