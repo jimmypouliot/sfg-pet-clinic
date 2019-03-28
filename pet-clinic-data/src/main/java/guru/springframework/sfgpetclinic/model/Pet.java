@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -22,6 +23,7 @@ public class Pet extends BaseEntity {
     @ManyToOne
     private Owner owner;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
     private String name;

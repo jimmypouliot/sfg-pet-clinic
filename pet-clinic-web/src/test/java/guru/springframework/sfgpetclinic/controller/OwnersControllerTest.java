@@ -18,7 +18,9 @@ import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -171,5 +173,22 @@ class OwnersControllerTest {
                 .andExpect(model().attribute("owner", hasProperty("firstName", equalTo("Rafa"))))
                 .andExpect(model().attribute("owner", hasProperty("lastName", equalTo("Nada"))))
                 .andExpect(model().attribute("owner", hasProperty("address", equalTo("Spain"))));
+    }
+
+    @Test
+    void processFindFormEmptyReturnMany() throws Exception {
+        when(ownerService.findAllByLastNameLikeIgnoreCase(anyString()))
+                .thenReturn(
+                        Sets.newHashSet(
+                                Owner.builder().id(1l).build(),
+                                Owner.builder().id(2l).build()
+                        )
+                );
+
+        mockMvc.perform(get("/owners")
+                .param("lastName",""))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owner/ownersList"))
+                .andExpect(model().attribute("selections", hasSize(2)));;
     }
 }

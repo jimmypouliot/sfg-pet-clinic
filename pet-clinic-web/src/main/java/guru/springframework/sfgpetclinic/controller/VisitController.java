@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.util.Map;
 
 @Controller
-class VisitController {
+public class VisitController {
 
     private final VisitService visitService;
     private final PetService petService;
@@ -25,7 +25,7 @@ class VisitController {
     }
 
     @InitBinder
-    public void setAllowedFields(WebDataBinder dataBinder) {
+    public void initBinder(WebDataBinder dataBinder) {
         dataBinder.setDisallowedFields("id");
     }
 
